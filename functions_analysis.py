@@ -22,8 +22,8 @@ def shift_0order(A, B, center, s_roi = 20):
     A_shift = np.zeros(np.shape(A))
     s_roi = 20
     for i in range(np.size(A, 0)):
-        centerA = np.reshape(find_peak.get_all(A[i], [center[1]-s_roi, center[1]+s_roi, center[0]-s_roi, center[0]+s_roi])[4:6], (2,))
-        centerB = np.reshape(find_peak.get_all(B[i], [center[1]-s_roi, center[1]+s_roi, center[0]-s_roi, center[0]+s_roi])[4:6], (2,))
+        centerA = find_peak.get_pos_around(A[i], center, s_roi, method='2D_voigt')
+        centerB = find_peak.get_pos_around(B[i], center, s_roi, method='2D_voigt')
         shift = centerA-centerB
         f = interpolate.interp2d(np.arange(np.size(A, axis=1)), np.arange(np.size(A, axis=1)), A[i])
         A_shift[i, :, :] = f(np.arange(np.size(A, axis=1))+shift[1], np.arange(np.size(A, axis=2))+shift[0])
@@ -78,6 +78,8 @@ def angle_between(v1, v2):
     v2_u = unit_vector(v2)
     return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
 
+
+
 def shift_0order_fit(A, B, center, s_roi=20, method = '2D_voigt_rotated'):
     A_shift = np.zeros(np.shape(A))
     ROI = [center[1]-s_roi, center[1]+s_roi, center[0]-s_roi, center[0]+s_roi]
@@ -100,7 +102,7 @@ def shift_0order_fit(A, B, center, s_roi=20, method = '2D_voigt_rotated'):
             A[i],
             method='linear',
             bounds_error=False,
-            fill_value=0  # Adjust this value if you need a different out-of-bounds behavior
+            fill_value=np.nan  # Adjust this value if you need a different out-of-bounds behavior
         )
         
         # Interpolate shifted image
@@ -129,7 +131,7 @@ def shift_to_ref(A, ref, center, s_roi=20, method = '2D_voigt_rotated'):
             A[i],
             method='linear',
             bounds_error=False,
-            fill_value=0  # Adjust this value if you need a different out-of-bounds behavior
+            fill_value=np.nan # Adjust this value if you need a different out-of-bounds behavior
         )
         
         # Interpolate shifted image

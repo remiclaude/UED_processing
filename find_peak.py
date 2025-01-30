@@ -126,7 +126,7 @@ def calculate_fwhm_voigt(sigma_x, sigma_y, gamma_x, gamma_y):
     return fwhm_voigt_x, fwhm_voigt_y
 
 # Define the rotated 2D Voigt function
-def voigt_2d_rotated(x, y, amplitude, centerx, centery, sigma_x, sigma_y, gamma_x, gamma_y, theta, offset):
+def voigt_2d_rotated(x, y, amplitude, centerx, centery, sigmax, sigmay, gammax, gammay, theta, offset):
     """
     2D Voigt function with rotation.
 
@@ -146,12 +146,12 @@ def voigt_2d_rotated(x, y, amplitude, centerx, centery, sigma_x, sigma_y, gamma_
     y_rot = -(x - centerx) * np.sin(theta) + (y - centery) * np.cos(theta)
 
     # Convert rotated x and y to complex form for Voigt profile along each axis
-    z_x = (x_rot + 1j * gamma_x) / (sigma_x * np.sqrt(2))
-    z_y = (y_rot + 1j * gamma_y) / (sigma_y * np.sqrt(2))
+    z_x = (x_rot + 1j * gammax) / (sigmax * np.sqrt(2))
+    z_y = (y_rot + 1j * gammay) / (sigmay * np.sqrt(2))
 
     # Compute the Voigt profile separately along x_rot and y_rot, then take the product
-    voigt_x = np.real(wofz(z_x)) / (sigma_x * np.sqrt(2 * np.pi))
-    voigt_y = np.real(wofz(z_y)) / (sigma_y * np.sqrt(2 * np.pi))
+    voigt_x = np.real(wofz(z_x)) / (sigmax * np.sqrt(2 * np.pi))
+    voigt_y = np.real(wofz(z_y)) / (sigmay * np.sqrt(2 * np.pi))
     
     # The full 2D rotated Voigt profile
     return offset + amplitude * voigt_x * voigt_y
