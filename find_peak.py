@@ -93,7 +93,7 @@ def fit_voigt_2d(x_data, y_data, z_data):
     voigt_model = lmfit.Model(voigt_2d, independent_vars=['x', 'y'])
     # Initialize parameters for the fit
     params = voigt_model.make_params(
-        amplitude=dict(value=np.max(z_data),min=0, max=+inf) ,
+        amplitude=dict(value=np.max(z_data)*50,min=0, max=+inf) ,
         centerx= dict(value=np.mean(x_data), min=x_data[0, 0], max=x_data[-1, -1]),
         centery=dict(value=np.mean(y_data), min=y_data[0,0], max=y_data[-1,-1]),
         sigmax=dict(value=1.0, min=0, max=10),
@@ -102,9 +102,10 @@ def fit_voigt_2d(x_data, y_data, z_data):
         gammay=dict(value=1.0, min=0, max=1e3),
         offset = dict(value=np.min(z_data), min=0, max=+inf)
     )
-
+    # print(params)
     # Perform the fit (flattening data to 1D for fitting)
     result = voigt_model.fit(z_data.ravel(), x=x_data.ravel(), y=y_data.ravel(), params=params)
+    # print(result.params)
     return result, voigt_model
 
 

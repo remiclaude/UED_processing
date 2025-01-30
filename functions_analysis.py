@@ -225,9 +225,9 @@ def remove_hot_uneven(iON, iOFF, min, max, plot_show=False):
             pic_pos_above = np.where(diff > max)
             pic_pos_below = np.where(diff <= min)
             pic_pos_off = np.where((iOFF[o] == 0) & (iON[o]>max))
-            print('length above: ', len(pic_pos_above[0]))
-            print('length below: ', len(pic_pos_below[0]))
-            print('length off: ', len(pic_pos_off[0]))
+            # print('length above: ', len(pic_pos_above[0]))
+            # print('length below: ', len(pic_pos_below[0]))
+            # print('length off: ', len(pic_pos_off[0]))
             pos_hot.append([pic_pos_above, pic_pos_below, pic_pos_off])
             ratio_hot.append(1e2*(len(pic_pos_above[0])+len(pic_pos_below[0])+len(pic_pos_off[0]))/(512*512))
             for i in range(len(pic_pos_off[0])):
@@ -245,6 +245,7 @@ def remove_hot_uneven(iON, iOFF, min, max, plot_show=False):
                 for h in hot:
                     img[h[0], h[1]] = 1 
             fig, ax = plt.subplots(1,1, figsize=(6,6), layout='tight')
+            ax.set_title('position of hot pixel in the map')
             ax.imshow(img, cmap='Greys')
     else:
         print('one image processing')
@@ -286,9 +287,9 @@ def get_pos_hot_uneven(iON, iOFF, min, max, plot_show=False):
             pic_pos_above = np.where(diff > max)
             pic_pos_below = np.where(diff <= min)
             pic_pos_off = np.where((iOFF[o] == 0) & (iON[o]>max))
-            print('length above: ', len(pic_pos_above[0]))
-            print('length below: ', len(pic_pos_below[0]))
-            print('length off: ', len(pic_pos_off[0]))
+            # print('length above: ', len(pic_pos_above[0]))
+            # print('length below: ', len(pic_pos_below[0]))
+            # print('length off: ', len(pic_pos_off[0]))
             pos_hot.append([pic_pos_above, pic_pos_below, pic_pos_off])
             ratio_hot.append(1e2*(len(pic_pos_above[0])+len(pic_pos_below[0])+len(pic_pos_off[0]))/(512*512))
             for i in range(len(pic_pos_off[0])):
@@ -332,6 +333,7 @@ def get_pos_hot_uneven(iON, iOFF, min, max, plot_show=False):
             for h in pos_hot:
                 img[h[0], h[1]] = 1 
             fig, ax = plt.subplots(1,1, figsize=(6,6), layout='tight')
+            ax.set_title('position of hot pixel in the map')
             ax.imshow(img, cmap='Greys')
     return iON, iOFF, img, ratio_hot
 
@@ -360,6 +362,7 @@ def remove_hot_abs(iON, iOFF, thresh, plot_show=False):
                 for h in hot:
                     img[h[0], h[1]] = 1 
             fig, ax = plt.subplots(1,1, figsize=(6,6), layout='tight')
+            ax.set_title('position of hot pixel in the map')
             ax.imshow(img, cmap='Greys')
     else:
         print('one image processing')
