@@ -106,6 +106,7 @@ def fit_voigt_2d(x_data, y_data, z_data):
     # Perform the fit (flattening data to 1D for fitting)
     result = voigt_model.fit(z_data.ravel(), x=x_data.ravel(), y=y_data.ravel(), params=params)
     # print(result.params)
+    # print(result.errstd)
     return result, voigt_model
 
 
